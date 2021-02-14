@@ -12,10 +12,9 @@ app.get('/*', (req, res) => {
     url = urlParser.parse(req.url, true);
 
 
-    console.log(url.query.ajax)
-
     if (url.query.ajax) {
-        res.send("asdsa")
+        url_tab = url.pathname.split('/')
+        res.render(url_tab[1])
     }
     else{
 

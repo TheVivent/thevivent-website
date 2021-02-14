@@ -98,11 +98,22 @@
         $("a").on("click", (event) => {
           event.preventDefault();
 
-          $.get("/spanko?ajax=true", (data) => {
+
+          $.get(`${event.currentTarget.href}?ajax=true`, (data) => {
             $("article.container-fluid").html(data)
+            
+            window.history.pushState(data,"", event.currentTarget.href);
+
           })
 
         })
+
+        window.onpopstate = function(e){
+          if(e.state){
+            $("article.container-fluid").html(e.state);
+            //document.title = e.state.pageTitle;
+          }
+        };
     </script>
 
   </body>
