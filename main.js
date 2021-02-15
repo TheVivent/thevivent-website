@@ -1,27 +1,42 @@
 const express = require("express");
-const urlParser = require("url");
-const port = 80;
+const handlebars = require("express-handlebars");
+const port = 80; // server port (no shit)
 
+// load app
 const app = express();
 app.set('view engine', 'hbs')
-app.use(express.static("src"))
+app.engine('hbs', handlebars({
+    extname: 'hbs',                             // set hbs extension
+    defaultLayout: 'defaultLayout',             // set default layout (in views/layouts)
+    layoutsDir: __dirname + '/views/layouts',   // set layouts dir
+    partialsDir: __dirname + '/views/partials/' // set partials dir
+}))
 
+app.use(express.static("public")) // make website use sources from public dir
 
-app.get('/*', (req, res) => {
-    body = "test";
-    url = urlParser.parse(req.url, true);
-
+// handling pages. Needs to be moved to separate file & find better solution for handling AJAX
+app.get('/', (req, res) => {
 
     if (url.query.ajax) {
-        url_tab = url.pathname.split('/')
-        res.render(url_tab[1])
+        res.render("home",
+            {layout: false})
     }
     else{
-
-        res.render('index', {
-            body: body
-        });
+        res.render('home');
     }
+
 })
 
-app.listen(port);
+app.get('/CV', (req, res) => {
+
+    if (url.query.ajax) {
+        res.render("CV",
+            {layout: false})
+    }
+    else{
+        res.render('CV');
+    }
+
+})
+
+app.listen(port); // turn on web-server
