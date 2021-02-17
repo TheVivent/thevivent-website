@@ -5,7 +5,7 @@
   </head>
   <body>
     <header>
-			{{>header}}
+			{{>header header}}
     </header>
 
     <article class="container-fluid">
@@ -19,13 +19,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <script>
-        $("a").on("click", (event) => {
-          // prevent link redirecting 
-          // (might change, because of redirecting to other sites)
-          // probably add class to `a`
+        $("header a").on("click", (event) => {
+          // prevent link redirecting
           event.preventDefault();
-          
-          console.log(`${event.currentTarget.href}?ajax=true`)
 
           // send ajax request to where a directs
           $.get(`${event.currentTarget.href}?ajax=true`, (data) => {
@@ -33,29 +29,48 @@
             $("article.container-fluid").html(data.html)
             // change title to returned
             document.title = data.head.title
+
+            // save text of new active link
+            data.header.activeLink = $(event.currentTarget).text()
             
             // save in history
             window.history.pushState(data, data.head.title, event.currentTarget.href);
 
           })
 
+          // remove active from all links in header
+          $("header a").removeClass("active");
+          // set clicked link as active
+          $(event.currentTarget).addClass("active")
+
+
         })
 
         window.onpopstate = function(e){
           // on backward/forward load data from history
           if(e.state){
-            $("article.container-fluid").html(e.state.html);
             document.title = e.state.head.title;
+
+            // remove "active" class from all link in header
+            $("header a").removeClass("active")
+            // find link that should be "active" and add class
+            $(`header a:contains("${e.state.header.activeLink}")`).addClass("active")
+
+            $("article.container-fluid").html(e.state.html);
           }
         };
 
         $(document).ready(() => {
           // when page loaded, replace it's state in history
           data = {
-            "head": {
-              "title": document.title
+            head: {
+              title: document.title
             },
-            "html": $("article.container-fluid").html()
+            header: {
+              // get text of current active link 
+              activeLink: $("header a.active").text()
+            },
+            html: $("article.container-fluid").html()
           }
           window.history.replaceState(data, "", window.location.href)
         })

@@ -12,10 +12,50 @@ const defaultLayoutName = "defaultLayout"
 const app = express();
 app.set('view engine', 'hbs')
 app.engine('hbs', handlebars({
-    extname: 'hbs',                             // set hbs extension
-    defaultLayout: defaultLayoutName,             // set default layout (in views/layouts)
-    layoutsDir: __dirname + '/views/layouts',   // set layouts dir
-    partialsDir: __dirname + '/views/partials/' // set partials dir
+    extname: 'hbs',                                 // set hbs extension
+    defaultLayout: defaultLayoutName,               // set default layout (in views/layouts)
+    layoutsDir: __dirname + '/views/layouts',       // set layouts dir
+    partialsDir: __dirname + '/views/partials/',    // set partials dir
+    helpers: {                                      // load helpers (if)
+        "compare": function (lvalue, operator, rvalue, options) {  // helper from http://doginthehat.com.au/2012/02/comparison-block-helper-for-handlebars-templates/#comment-44
+
+            var operators, result;
+            
+            if (arguments.length < 3) {
+                throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
+            }
+            
+            if (options === undefined) {
+                options = rvalue;
+                rvalue = operator;
+                operator = "===";
+            }
+            
+            operators = {
+                '==': function (l, r) { return l == r; },
+                '===': function (l, r) { return l === r; },
+                '!=': function (l, r) { return l != r; },
+                '!==': function (l, r) { return l !== r; },
+                '<': function (l, r) { return l < r; },
+                '>': function (l, r) { return l > r; },
+                '<=': function (l, r) { return l <= r; },
+                '>=': function (l, r) { return l >= r; },
+                'typeof': function (l, r) { return typeof l == r; }
+            };
+            
+            if (!operators[operator]) {
+                throw new Error("Handlerbars Helper 'compare' doesn't know the operator " + operator);
+            }
+            
+            result = operators[operator](lvalue, rvalue);
+            
+            if (result) {
+                return options.fn(this);
+            } else {
+                return options.inverse(this);
+            }
+        }
+    }
 }))
 
 app.use(express.static("public")) // make website use sources from public dir
@@ -24,9 +64,12 @@ app.use(express.static("public")) // make website use sources from public dir
 app.get('/', (req, res) => {
     url = urlParser.parse(req.url, true);
     data = {
-        "head":{
-            "title": "TheVivent",
-            "description": "Lorem ipsum..."
+        head: {
+            title: "TheVivent",
+            description: "Lorem ipsum..."
+        },
+        header: {
+            currentPage: "home"
         }
     }
 
@@ -45,9 +88,12 @@ app.get('/CV', (req, res) => {
     url = urlParser.parse(req.url, true);
 
     data = {
-        "head":{
-            "title": "TheVivent - CV",
-            "description": "Lorem ipsum..."
+        head:{
+            title: "TheVivent - CV",
+            description: "Lorem ipsum..."
+        },
+        header: {
+            currentPage: "CV"
         }
     }
 
@@ -67,8 +113,23 @@ app.get('/CV', (req, res) => {
 app.get('/projekty', (req, res) => {
     url = urlParser.parse(req.url, true);
 
-    res.render("projekty",
-        {layout: (!url.query.ajax?defaultLayoutName:false)})
+    data = {
+        head:{
+            title: "TheVivent - projekty",
+            description: "Lorem ipsum..."
+        },
+        header: {
+            currentPage: "projekty"
+        }
+    }
+
+    if(url.query.ajax){
+        data.html = fs.readFileSync( __dirname + '/views/projekty.hbs' ).toString();
+        res.json(data)
+    }
+    else{
+        res.render("projekty", data)
+    }
 
 })
 
