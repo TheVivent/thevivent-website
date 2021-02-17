@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="pl">
   <head>
-    {{>head}}
+    {{>head head}}
   </head>
   <body>
     <header>
@@ -20,28 +20,44 @@
 
     <script>
         $("a").on("click", (event) => {
+          // prevent link redirecting 
+          // (might change, because of redirecting to other sites)
+          // probably add class to `a`
           event.preventDefault();
           
           console.log(`${event.currentTarget.href}?ajax=true`)
 
+          // send ajax request to where a directs
           $.get(`${event.currentTarget.href}?ajax=true`, (data) => {
-            $("article.container-fluid").html(data)
+            // replace content with returned html
+            $("article.container-fluid").html(data.html)
+            // change title to returned
+            document.title = data.head.title
             
-            window.history.pushState(data,"", event.currentTarget.href);
+            // save in history
+            window.history.pushState(data, data.head.title, event.currentTarget.href);
 
           })
 
         })
 
         window.onpopstate = function(e){
+          // on backward/forward load data from history
           if(e.state){
-            $("article.container-fluid").html(e.state);
-            //document.title = e.state.pageTitle;
+            $("article.container-fluid").html(e.state.html);
+            document.title = e.state.head.title;
           }
         };
 
         $(document).ready(() => {
-          window.history.replaceState($("article.container-fluid").html(), "", window.location.href)
+          // when page loaded, replace it's state in history
+          data = {
+            "head": {
+              "title": document.title
+            },
+            "html": $("article.container-fluid").html()
+          }
+          window.history.replaceState(data, "", window.location.href)
         })
 
     </script>

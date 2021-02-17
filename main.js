@@ -2,6 +2,7 @@
 const express = require("express");
 const urlParser = require("url")
 const handlebars = require("express-handlebars");
+const fs = require("fs");
 
 // config
 const port = 80; // server port (no shit)
@@ -22,14 +23,41 @@ app.use(express.static("public")) // make website use sources from public dir
 // handling pages. Needs to be moved to separate file & find better solution for handling AJAX
 app.get('/', (req, res) => {
     url = urlParser.parse(req.url, true);
+    data = {
+        "head":{
+            "title": "TheVivent",
+            "description": "Lorem ipsum..."
+        }
+    }
 
-    res.render("home",
-        {layout: (!url.query.ajax?defaultLayoutName:false)})
+    if(url.query.ajax){
+        data.html = fs.readFileSync( __dirname + '/views/home.hbs' ).toString();
+        res.json(data)
+    }
+    else{
+        res.render("home", data)
+    }
+
 
 })
 
 app.get('/CV', (req, res) => {
     url = urlParser.parse(req.url, true);
+
+    data = {
+        "head":{
+            "title": "TheVivent - CV",
+            "description": "Lorem ipsum..."
+        }
+    }
+
+    if(url.query.ajax){
+        data.html = fs.readFileSync( __dirname + '/views/CV.hbs' ).toString();
+        res.json(data)
+    }
+    else{
+        res.render("CV", data)
+    }
 
     res.render("CV",
         {layout: (!url.query.ajax?defaultLayoutName:false)})
