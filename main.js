@@ -123,6 +123,7 @@ app.get('/projekty', (req, res) => {
         }
     }
 
+
     if(url.query.ajax){
         data.html = fs.readFileSync( __dirname + '/views/projekty.hbs' ).toString();
         res.json(data)
@@ -131,6 +132,29 @@ app.get('/projekty', (req, res) => {
         res.render("projekty", data)
     }
 
+})
+
+app.get('/projekty/:project', (req, res) => {
+    url = urlParser.parse(req.url, true);
+
+    data = {
+        head:{
+            title: "TheVivent - projekty",
+            description: "Lorem ipsum..."
+        },
+        header: {
+            currentPage: "projekty"
+        }
+    }
+
+    if(url.query.ajax){
+        data.html = fs.readFileSync( __dirname + `/views/projekty/${req.params.project}.hbs` ).toString();
+        res.json(data)
+    }
+    else{
+        res.render(`projekty/${req.params.project}`, data)
+    }
+    
 })
 
 app.listen(port); // turn on web-server
