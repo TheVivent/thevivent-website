@@ -51,7 +51,7 @@
           if(e.state){
             document.title = e.state.head.title;
 
-            // remove "active" class from all link in header
+            // remove "active" class from all links in header
             $("header a").removeClass("active")
             // find link that should be "active" and add class
             $(`header a:contains("${e.state.header.activeLink}")`).addClass("active")
