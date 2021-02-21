@@ -1,40 +1,36 @@
-{{!-- add (better) highlighting for current page!!! --}}
-
-<nav class="navbar navbar-expand-lg w-100 navbar-dark bg-dark py-1 pt-sm-1">
+<nav class="navbar navbar-expand-md w-100 navbar-dark bg-dark py-1 pt-sm-1">
     <div class="container-fluid">
 
         {{!-- logo --}}
-        <div class="col-1"> 
-            <a href="/" class="navbar-brand {{#compare currentPage "==" "home"}}active{{/compare}}">
-                <img src="/img/logobig.svg" class="m-2 d-none d-md-inline-block" alt="logo" style="height: 3em; filter: invert(100%);" />
-                <img src="/img/logo.svg" class="m-2 d-inline-block d-md-none" alt="logo" style="height: 3em; filter: invert(100%);" />
-            </a>
-        </div>
+        <a href="/" class="navbar-brand {{#compare currentPage "==" "home"}}active{{/compare}}">
+            <img src="/img/logobig.svg" class="m-2 d-none d-md-inline-block" alt="logo" style="height: 3em; filter: invert(100%);" />
+            <img src="/img/logo.svg" class="m-2 d-inline-block d-md-none" alt="logo" style="height: 3em; filter: invert(100%);" />
+        </a>
         
+        {{!-- mobile-button --}}
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="przełącznik menu rozwijanego">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
         {{!-- options --}}
-        <div class="col">
-            <div class="collapse navbar-collapse" id="mainNav">
-                <ul class="navbar-nav m-auto">
-                    <li class="nav-item mx-4" id="cv">
-                        <a href="/CV" class="nav-link text-center {{#compare currentPage "==" "CV"}}active{{/compare}}">
-                        <span class="lg-grow" style="font-size: 30px;">CV</span>
-                        </a>
-                    </li>
-                    <li class="nav-item mx-4" id="cv">
-                        <a href="/projekty" class="nav-link text-center {{#compare currentPage "==" "projekty"}}active{{/compare}}">
-                        <span class="lg-grow" style="font-size: 30px;">projekty</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+        <div class="collapse navbar-collapse" id="mainNav">
+            <ul class="navbar-nav m-auto">
+                <li class="nav-item mx-4" id="cv">
+                    <a href="/CV" class="nav-link text-center {{#compare currentPage "==" "CV"}}active{{/compare}}">
+                    <span class="lg-grow" style="font-size: 30px;">CV</span>
+                    </a>
+                </li>
+                <li class="nav-item mx-4" id="cv">
+                    <a href="/projekty" class="nav-link text-center {{#compare currentPage "==" "projekty"}}active{{/compare}}">
+                    <span class="lg-grow" style="font-size: 30px;">projekty</span>
+                    </a>
+                </li>
+            </ul>
         </div>
 
-        {{!-- mobile-button --}}
-        <div class="col-1">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="przełącznik menu rozwijanego">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-        </div>
+        {{!-- fixer for centering options menu --}}
+        <div class="col-1 d-none d-md-block"></div>
+
 
     </div>
 </nav>
