@@ -130,11 +130,13 @@ app.get('/projekty', (req, res) => {
     fs.readdirSync(__dirname + '/views/projekty/').forEach(file => {
         data.projects[i++] = file.replace('.hbs', '')
     });
-    console.log(data.projects)
 
     if(url.query.ajax){
-        html = fs.readFileSync( __dirname + '/views/projekty.hbs' ).toString();
-        html = Handlebars.compile(html)
+        html = Handlebars.compile(
+            fs.readFileSync( __dirname + '/views/projekty.hbs' ).toString()
+        )
+        // html = fs.readFileSync( __dirname + '/views/projekty.hbs' ).toString();
+        // html = Handlebars.compile(html)
         data.html = html(data)
         res.json(data)
     }
