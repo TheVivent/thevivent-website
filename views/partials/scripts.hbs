@@ -1,0 +1,63 @@
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    // when clicked on ajax link (even dynamically created) do stuff
+    $('body').on("click", "a.ajax", (event) => {
+        // prevent link redirecting
+        event.preventDefault();
+
+        // send ajax request to where a directs
+        $.get(`${event.currentTarget.href}?ajax=true`, (data) => {
+        // replace content with returned html
+        $("article.container-fluid").html(data.html)
+        // change title to returned
+        document.title = data.head.title
+
+        // save text of new active link
+        data.header.activeLink = $(event.currentTarget).text()
+        
+        // save in history
+        window.history.pushState(data, data.head.title, event.currentTarget.href);
+
+        })
+
+        // remove active from all links in header
+        $("header a").removeClass("active");
+        // set clicked link as active
+        $(event.currentTarget).addClass("active")
+
+
+    })
+
+    window.onpopstate = function(e){
+        // on backward/forward load data from history
+        if(e.state){
+        document.title = e.state.head.title;
+
+        // remove "active" class from all links in header
+        $("header a").removeClass("active")
+        // find link that should be "active" and add class
+        $(`header a:contains("${e.state.header.activeLink}")`).addClass("active")
+
+        $("article.container-fluid").html(e.state.html);
+        }
+    };
+
+    $(document).ready(() => {
+        // when page loaded, replace it's state in history
+        data = {
+        head: {
+            title: document.title
+        },
+        header: {
+            // get text of current active link 
+            activeLink: $("header a.active").text()
+        },
+        html: $("article.container-fluid").html()
+        }
+        window.history.replaceState(data, "", window.location.href)
+    })
+
+</script>
