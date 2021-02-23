@@ -2,6 +2,7 @@
 const express = require("express");
 const urlParser = require("url")
 const handlebars = require("express-handlebars");
+const Handlebars = require('handlebars')
 const fs = require("fs");
 
 // config
@@ -120,12 +121,21 @@ app.get('/projekty', (req, res) => {
         },
         header: {
             currentPage: "projekty"
-        }
+        },
+        projects: []
     }
 
+    // read all projects from dir
+    var i = 0
+    fs.readdirSync(__dirname + '/views/projekty/').forEach(file => {
+        data.projects[i++] = file.replace('.hbs', '')
+    });
+    console.log(data.projects)
 
     if(url.query.ajax){
-        data.html = fs.readFileSync( __dirname + '/views/projekty.hbs' ).toString();
+        html = fs.readFileSync( __dirname + '/views/projekty.hbs' ).toString();
+        html = Handlebars.compile(html)
+        data.html = html(data)
         res.json(data)
     }
     else{

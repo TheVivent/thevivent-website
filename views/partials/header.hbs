@@ -2,7 +2,7 @@
     <div class="container-fluid">
 
         {{!-- logo --}}
-        <a href="/" class="navbar-brand {{#compare currentPage "==" "home"}}active{{/compare}}">
+        <a href="/" class="ajax navbar-brand {{#compare currentPage "==" "home"}}active{{/compare}}">
             <img src="/img/logobig.svg" class="m-2 d-none d-md-inline-block" alt="logo" style="height: 3em; filter: invert(100%);" />
             <img src="/img/logo.svg" class="m-2 d-inline-block d-md-none" alt="logo" style="height: 3em; filter: invert(100%);" />
         </a>
@@ -16,12 +16,12 @@
         <div class="collapse navbar-collapse" id="mainNav">
             <ul class="navbar-nav m-auto">
                 <li class="nav-item mx-4" id="cv">
-                    <a href="/CV" class="nav-link text-center {{#compare currentPage "==" "CV"}}active{{/compare}}">
+                    <a href="/CV" class="ajax nav-link text-center {{#compare currentPage "==" "CV"}}active{{/compare}}">
                     <span class="lg-grow" style="font-size: 30px;">CV</span>
                     </a>
                 </li>
                 <li class="nav-item mx-4" id="cv">
-                    <a href="/projekty" class="nav-link text-center {{#compare currentPage "==" "projekty"}}active{{/compare}}">
+                    <a href="/projekty" class="ajax nav-link text-center {{#compare currentPage "==" "projekty"}}active{{/compare}}">
                     <span class="lg-grow" style="font-size: 30px;">projekty</span>
                     </a>
                 </li>

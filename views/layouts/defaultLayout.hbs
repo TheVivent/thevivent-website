@@ -19,7 +19,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <script>
-        $("header a").on("click", (event) => {
+        // when clicked on ajax link (even dynamically created) do stuff
+        $('body').on("click", "a.ajax", (event) => {
           // prevent link redirecting
           event.preventDefault();
 

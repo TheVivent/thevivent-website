@@ -1,3 +1,5 @@
-<div class="col d-table-cell">
-    <span class="align-middle">projekty</span>
-</div>
+{{#each projects}}
+    <div>
+        <a class="ajax" href="/projekty/{{this}}">{{this}}</a>
+    </div>
+{{/each}}
