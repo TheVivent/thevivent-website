@@ -1,37 +1,45 @@
-<div class="row mt-3 align-items-center justify-content-center">
-    <div class="bg-invisible col-8">
+<div class="row my-1 align-items-center justify-content-center">
+    <div class="bg-invisible col-12 col-md-8">
+        {{!-- Title and description --}}
         <h2>FallGame</h2>
         <p>
             Prosta gra napisana w języku JavaScript polegająca na sterowaniu kulką w taki sposób, aby nie dotknąć górnej jak i dolnej krawędzi planszy.
         </p>
     </div>
 </div>
-<div class="row mt-2 justify-content-center">
-    <div class="col-12 col-lg-3 order-first order-lg-last text-left bg-invisible">
+
+{{!-- Points output and controls description --}}
+<div class="row my-1 justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6 text-left bg-invisible p-2">
         <div class="float-start">
             <h3>
                 <strong>Punkty:</strong>
-                <span id="pktout"></span>
+                <span id="pktout">{{!-- points output --}}</span>
             </h3>
         </div>
+
         <nav class="float-end">
-            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <div class="nav nav-pills" id="nav-tab" role="tablist">
                 <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-pc" type="button" role="tab" aria-controls="nav-home" aria-selected="true">
+                    {{!-- desktop controls description button --}}
                     <i class="fas fa-desktop"></i>
                 </button>
                 <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-mobile" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">
+                    {{!-- mobile controls description button --}}
                     <i class="fas fa-mobile-alt"></i>
                 </button>
             </div>
         </nav>
-        <div class="clearfix"></div>
-        <div class="tab-content" id="nav-tabContent">
+
+        <div class="tab-content float-end mx-5" id="nav-tabContent">
+            {{!-- description of controls on pc --}}
             <div class="tab-pane fade show active" id="nav-pc" role="tabpanel" aria-labelledby="nav-home-tab">
                 <i class="fas fa-arrow-right"></i>/d - ruch w prawo<br>
                 <i class="fas fa-arrow-left"></i>/a - ruch w lewo<br>
                 <i class="fas fa-arrow-up"></i>/w - skok<br>
                 [spacja] - start gry
             </div>
+            {{!-- description of controls on mobile --}}
             <div class="tab-pane fade" id="nav-mobile" role="tabpanel" aria-labelledby="nav-contact-tab">
                 dotyk lewej połowy - ruch w lewo<br>
                 dotyk prawej połowy - ruch w prawo<br>
@@ -39,7 +47,11 @@
             </div>
         </div>
     </div>
-    <div class="col-12 col-lg-6 text-end">
+</div>
+
+{{!-- game itself --}}
+<div class="row justify-content-center my-1">
+    <div class="col-12 text-center">
         <style>
             body:before{
                 content: "xs";
@@ -66,15 +78,11 @@
             <div id="left" style="position: absolute; top:0; left: 0; width: 50%; height: 100%;" ontouchstart="pressed[37]=true;" ontouchend="pressed[37]=false" onclick="start()"></div>
             <div id="right" style="position: absolute; top:0; left: 50%; width: 50%; height: 100%;" ontouchstart="pressed[39]=true;" ontouchend="pressed[39]=false" onclick="start()"></div>
         </div>
-        <script src="https://thevivent.com/js/FallGame.js"></script>
+        <script src="/js/FallGame.js"></script>
         <script>
             var breakpoint = {};
             breakpoint.refreshValue = function () {
                 this.value = window.getComputedStyle(document.querySelector('body'), ':before').getPropertyValue('content').replace(/\"/g, '');
-                console.log(this.value)
-            };
-            $(window).resize(function () { //poniżej można zmienić szerokość i wysokość gry w zależności od szerokości strony
-                breakpoint.refreshValue();
                 if(breakpoint.value=="md"){
                     document.getElementById("blank").width=600;
                     document.getElementById("blank").height=600;
@@ -84,15 +92,31 @@
                     document.getElementById("blank").height=550;
                 }
                 else if(breakpoint.value=="xs"){
-                    document.getElementById("blank").width=320;
-                    document.getElementById("blank").height=400;
+                    document.getElementById("blank").width=370;
+                    document.getElementById("blank").height=550;
                 }
                 else{
                     document.getElementById("blank").width=800;
                     document.getElementById("blank").height=600;
                 }
+            };
+            $(window).resize(function () { //poniżej można zmienić szerokość i wysokość gry w zależności od szerokości strony
+                breakpoint.refreshValue();
             }).resize();
+            breakpoint.refreshValue();
         </script>
     </div>
-        
+</div>
+
+
+<div class="row justify-content-center my-1">
+    <div class="col-12 col-md-8 text-justify bg-invisible">
+        <p>
+            Gra ta to porzucony przeze mnie projekt przy którym uczyłem się programowania obiektowego.
+        </p>
+        <p>
+            Optymalizacja i zabezpieczenia tutaj praktycznie nie istnieją, ale za to nie ma za dużo błędów 🙃.
+            Jedyne jakie istnieją są czysto graficzne (na niektórych przeglądarkach pozostają smugi) oraz optymalizacyjne (na niektórych telefonach gra się zawiesza przy zmianie kierunku ruchu kulki)
+        </p>
+    </div>
 </div>

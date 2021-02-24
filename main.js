@@ -171,7 +171,10 @@ app.get('/projekty/:project', (req, res) => {
     }
 
     if(url.query.ajax){
-        data.html = fs.readFileSync( __dirname + `/views/projekty/${req.params.project}.hbs` ).toString();
+        html = Handlebars.compile(
+            fs.readFileSync( __dirname + `/views/projekty/${req.params.project}.hbs` ).toString()
+        )
+        data.html = html(data)
         res.json(data)
     }
     else{
