@@ -12,6 +12,8 @@ body{
 }
 
 header{
+    z-index: 2000;
+    position: relative;
     height: 6em;
 }
 
@@ -22,5 +24,19 @@ article{
 }
 
 .card:hover{
+    transition: 0.3s;
     color: black;
+    transform: scale(1);
+}
+
+.card{
+    z-index: 1000;
+    transition: 0.1s;
+    transform: scale(0.9);
+}
+
+.bg-invisible{
+    background-color: rgba(255,255,255,0.05);
+    -webkit-box-shadow: 5px 5px 14px -3px rgba(0,0,0,0.9); 
+    box-shadow: 5px 5px 14px -3px rgba(0,0,0,0.9);
 }

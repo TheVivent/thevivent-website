@@ -138,7 +138,7 @@ app.get('/projekty', (req, res) => {
             name: file.replace('.hbs', ''),
             text: HTMLParser.parse(
                 fs.readFileSync( __dirname + '/views/projekty/' + file ).toString()
-            ).querySelector("p").text.substring(0,100).trim()
+            ).querySelector("p").text.substring(0,100).trim().concat("...")
         }
     });
 
