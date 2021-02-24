@@ -1,12 +1,14 @@
 <div class="row align-items-center justify-content-center h-100">
     {{#each projects}}
-        <div class="col-12 col-md-6 col-lg-4 col-xl-3 mt-3">
-            <div class="card m-auto" style="width: 18rem;">
-                <img src="..." class="card-img-top" alt="...">
+        <div class="col-12 col-md-6 col-lg-4 col-xl-3 p-1">
+            <div class="card m-auto" style="width: 18rem; z-index: -1;">
+                <div class="d-flex align-items-center card-img-top" style="height: 15rem; overflow: hidden;">
+                    <img src="/img/projects/{{this.name}}/main.jpg" class="w-100" alt="***** ***">
+                </div>
                 <div class="card-body">
-                    <h5 class="card-title">{{this}}</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="/projekty/{{this}}" class="btn btn-primary">Zobacz</a>
+                    <h5 class="card-title">{{this.name}}</h5>
+                    <p class="card-text">{{this.text}}</p>
+                    <a href="/projekty/{{this.name}}" class="ajax btn btn-primary">Zobacz</a>
                 </div>
             </div>
         </div>

@@ -20,3 +20,7 @@ article{
     overflow-x: hidden;
     overflow-y: auto;
 }
+
+.card:hover{
+    color: black;
+}

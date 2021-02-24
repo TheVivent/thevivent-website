@@ -3,6 +3,7 @@ const express = require("express");
 const urlParser = require("url")
 const handlebars = require("express-handlebars");
 const Handlebars = require('handlebars')
+const HTMLParser = require("node-html-parser")
 const fs = require("fs");
 
 // config
@@ -128,7 +129,17 @@ app.get('/projekty', (req, res) => {
     // read all projects from dir
     var i = 0
     fs.readdirSync(__dirname + '/views/projekty/').forEach(file => {
-        data.projects[i++] = file.replace('.hbs', '')
+        // text = HTMLParser.parse(
+        //     fs.readFileSync( __dirname + '/views/projekty/' + file ).toString()
+        // ).querySelector("p").text.substring(0,100).trim()
+    
+
+        data.projects[i++] = {
+            name: file.replace('.hbs', ''),
+            text: HTMLParser.parse(
+                fs.readFileSync( __dirname + '/views/projekty/' + file ).toString()
+            ).querySelector("p").text.substring(0,100).trim()
+        }
     });
 
     if(url.query.ajax){
