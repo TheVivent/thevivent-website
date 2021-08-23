@@ -1,0 +1,27 @@
+.cv {
+  background-size: cover;
+  background-position: center;
+  filter: blur(2px);
+
+  transition: all;
+  transition-duration: 200ms;
+}
+
+h1.cv {
+  font-size: 25vw;
+  filter: blur(0);
+
+  transition: all;
+  transition-duration: 200ms;
+}
+.cv:hover {
+  filter: blur(0);
+  transition: all;
+  transition-duration: 400ms;
+}
+
+.cv:hover h1 {
+  font-size: 30vw;
+  transition: all;
+  transition-duration: 400ms;
+}
